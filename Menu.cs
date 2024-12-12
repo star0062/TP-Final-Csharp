@@ -15,11 +15,11 @@ namespace GestionParc
             {
                 Console.Clear();
                 Console.WriteLine("\nMenu de gestion du parc automobile :");
-                Console.WriteLine("1. Ajouter une voiture");
-                Console.WriteLine("2. Lister les voitures");
-                Console.WriteLine("3. Louer une voiture");
-                Console.WriteLine("4. Rendre une voiture");
-                Console.WriteLine("5. Quitter");
+                Console.WriteLine("1) Ajouter une voiture");
+                Console.WriteLine("2) Lister les voitures");
+                Console.WriteLine("3) Louer une voiture");
+                Console.WriteLine("4) Rendre une voiture");
+                Console.WriteLine("5) Quitter");
                 Console.Write("Choisissez une option : ");
 
                 string choix = Console.ReadLine();
@@ -47,10 +47,10 @@ namespace GestionParc
                         return;
 
                     default:
-                        Console.WriteLine("Option invalide. Veuillez réessayer.");
+                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
                         break;
                 }
-                Console.WriteLine("Appuyez sur une touche pour continuer...");
+                Console.WriteLine("Faites un choix pour continuer...");
                 Console.ReadKey();
             }
         }
