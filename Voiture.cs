@@ -1,29 +1,31 @@
-namespace TP_Final_Csharp
+using System;
+
+namespace TPFinalCsharp
 {
+    // Classe Voiture pour représenter une voiture dans le parc automobile avec ses attributs et méthodes.
     public class Voiture
     {
+        // Attributs de la classe Voiture.
         public int Id { get; set; }
-        public Marque Marque { get; set; }
-        public Modele Modele { get; set; }
+        public string Marque { get; set; }
+        public string Modele { get; set; }
         public int Annee { get; set; }
-        public bool Statut { get; set; }
+        public string Statut { get; set; } 
 
-        public Voiture(int id, Marque marque, Modele modele, int annee)
+        public Voiture(int id, string marque, string modele, int annee, string statut)
         {
+            // Initialisation des attributs.
             Id = id;
             Marque = marque;
             Modele = modele;
             Annee = annee;
-            Statut = true;
+            Statut = statut;
         }
 
-        public void AfficherInformations()
+        // Méthode pour afficher les informations de la voiture.
+        public void AfficherInfo()
         {
-            Console.WriteLine($"ID: {Id}");
-            Console.WriteLine($"Marque: {Marque}");
-            Console.WriteLine($"Modèle: {Modele}");
-            Console.WriteLine($"Année: {Annee}");
-            Console.WriteLine($"Statut: {(Statut ? "Disponible" : "Louée")}");
+            Console.WriteLine($"ID: {Id}, Marque: {Marque}, Modèle: {Modele}, Année: {Annee}, Statut: {Statut}");
         }
     }
 }

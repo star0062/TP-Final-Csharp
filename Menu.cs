@@ -1,58 +1,137 @@
 using System;
-using GestionParc;
+using System.Globalization;
 
-namespace TP_Final_Csharp
+namespace TPFinalCsharp
 {
     public class Menu
     {
-        private static Parc parc;
-        public static void Initialiser(Parc parcInstance){
-            parc = parcInstance;
+        private GestionParc gestionParc;
+
+        public Menu()
+        {
+            gestionParc = new GestionParc();
         }
 
-        public void AfficherMenu(){
+        // Afficher le menu principal
+
+        public void AfficherMenu()
+        {
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("\nMenu de gestion du parc automobile :");
-                Console.WriteLine("1) Ajouter une voiture");
-                Console.WriteLine("2) Lister les voitures");
-                Console.WriteLine("3) Louer une voiture");
-                Console.WriteLine("4) Rendre une voiture");
-                Console.WriteLine("5) Quitter");
-                Console.Write("Choisissez une option : ");
-
+                Console.WriteLine("\n--- Menu Principal ---");
+                Console.WriteLine("1. Lister les voitures");
+                Console.WriteLine("2. Louer une voiture");
+                Console.WriteLine("3. Rendre une voiture");
+                Console.WriteLine("4. Ajouter une nouvelle voiture");
+                Console.WriteLine("5. Supprimer une voiture");
+                Console.WriteLine("6. Quitter");
+                Console.Write("Votre choix : ");
                 string choix = Console.ReadLine();
 
                 switch (choix)
                 {
                     case "1":
-                        AjouterVoiture();
+                        gestionParc.ListerVoitures();
                         break;
 
                     case "2":
-                        parc.ListerVoitures();
-                        break;
-
-                    case "3":
                         LouerVoiture();
                         break;
 
-                    case "4":
+                    case "3":
                         RendreVoiture();
                         break;
 
+                    case "4":
+                        AjouterVoiture();
+                        break;
+
                     case "5":
-                        Console.WriteLine("Vous avez quitté le programme.");
+                        SupprimerVoiture();
+                        break;
+
+                    case "6":
+                        Console.WriteLine("Au revoir !");
                         return;
 
                     default:
-                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
+                        Console.WriteLine("Choix invalide.");
                         break;
                 }
-                Console.WriteLine("Faites un choix pour continuer...");
-                Console.ReadKey();
             }
+        }
+        // Louer une voiture par ID.
+        private void LouerVoiture()
+        {
+            Console.Write("Entrez l'ID de la voiture à louer : ");
+            if (int.TryParse(Console.ReadLine(), out int idLouer))
+                gestionParc.LouerVoiture(idLouer);
+            else
+                Console.WriteLine("Entrée invalide.");
+        }
+        
+        // Rendre une voiture par ID.
+        private void RendreVoiture()
+        {
+            Console.Write("Entrez l'ID de la voiture à rendre : ");
+            if (int.TryParse(Console.ReadLine(), out int idRendre))
+                gestionParc.RendreVoiture(idRendre);
+            else
+                Console.WriteLine("Entrée invalide.");
+        }
+
+        // Ajouter une nouvelle voiture au parc.
+        private void AjouterVoiture()
+        {
+            gestionParc.AfficherMarquesModeles();
+
+            string marque;
+            do
+            {
+                Console.Write("Entrez la marque : ");
+                marque = Console.ReadLine();
+                marque = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(marque.ToLower());
+
+                if (!gestionParc.MarqueExiste(marque))
+                {
+                    Console.WriteLine("Marque invalide. Veuillez entrer une marque valide.");
+                }
+            } while (!gestionParc.MarqueExiste(marque));
+
+            string modele;
+            do
+            {
+                Console.Write("Entrez le modèle : ");
+                modele = Console.ReadLine();
+                modele = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(modele.ToLower());
+
+                if (!gestionParc.ModeleExiste(marque, modele))
+                {
+                    Console.WriteLine("Modèle invalide. Veuillez entrer un modèle valide.");
+                }
+            } while (!gestionParc.ModeleExiste(marque, modele));
+
+            int anneeAjout;
+            do
+            {
+                Console.Write("Entrez l'année (entre 2000 et 2024) : ");
+                if (!int.TryParse(Console.ReadLine(), out anneeAjout) || anneeAjout < 2000 || anneeAjout > 2024)
+                {
+                    Console.WriteLine("Année invalide. Veuillez entrer une année entre 2000 et 2024.");
+                }
+            } while (anneeAjout < 2000 || anneeAjout > 2024);
+
+            gestionParc.AjouterVoiture(marque, modele, anneeAjout);
+        }
+
+        // Supprimer une voiture du parc par ID.
+        private void SupprimerVoiture()
+        {
+            Console.Write("Entrez l'ID de la voiture à supprimer : ");
+            if (int.TryParse(Console.ReadLine(), out int idSupprimer))
+                gestionParc.SupprimerVoiture(idSupprimer);
+            else
+                Console.WriteLine("Entrée invalide.");
         }
     }
 }
